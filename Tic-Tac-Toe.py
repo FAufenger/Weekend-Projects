@@ -13,11 +13,11 @@ def new_board():
 
 # Search for empty spaces
 def available_moves(board):
-    1 = []
+    move = []
 
     for x in range(len(board)):
         for o in range(len(board)):
             if board[x][o] == 0:
-                1.append((x,o))
-    return(1)
+                move.append((x,o))
+    return(move)
 
