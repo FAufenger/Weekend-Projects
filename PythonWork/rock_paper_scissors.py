@@ -1,6 +1,7 @@
 # Rock Paper Scissors 1 Player vs Computer
 ## Under CONSTRUCTION
 # Adding couter and while statement to ask if you want to play again
+# Also will add stastical output of games won
 
 
 # Incorporate the random library
