@@ -1,19 +1,22 @@
 # Alien Invaders!!!
 ## Under Construction
 
-#This project was completed with the help of PYTHON CRASH COURSE
-#Hands on project based introduction to programming by ERIC MATTHES
+# This project was completed with the help of PYTHON CRASH COURSE
+# Hands on project based introduction to programming by ERIC MATTHES
 
-# Import dependencies
+# Import Python dependencies
 import sys
 import pygame
+
+# Import modules 
 from settings import Settings
+from ship import Ship
 
-"""Create an overall class to manage game assets and actions"""
 class AlienInvasion:
+    """Create an overall class to manage game assets and actions."""
 
-    """ Initialize the game and create resources"""
     def __init__(self):
+        """Initialize the game and create resources."""
         pygame.init()
         #Import screen settings from settings.py module
         self.settings = Settings()
@@ -22,23 +25,32 @@ class AlienInvasion:
         # Set caption    
         pygame.display.set_caption("Alien Invasion")
 
-        
+        # Import ship from ship.bmp in images folder
+        self.ship = Ship(self)
 
-    """Start main loop for the game"""
     def run_game(self):
+         """Start main loop for the game."""
         while True:
-            
-            # Watch for keyboard and mouse events
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    sys.exit()
-            
-            # Redraw the screen during each pass through the loop (.fill)
-            # Color chosen in settings.py
-            self.screen.fill(self.settings.bg_color)
+            # Adding helper methods 
+            self._check_events()
+            self._update_screen()
 
-            # Make the most recently drawn screen visible and hide old
-            pygame.display.flip()
+
+    def _check_events(self):
+        """Respond to keypresses and mouse events."""
+        for event in pygame.event.get():
+            if event.type == pygame.QUIT:
+                sys.exit()
+
+    def _update_screen(self):
+        """Update images on the screen and flip to the new screen."""
+        # Color chosen in settings.py
+        self.screen.fill(self.settings.bg_color)
+        # Ship paramters made in ship.py
+        self.ship.blitme()
+
+        # Make the most recently drawn screen visible and hide old
+        pygame.display.flip()
 
 if __name__ == '__main__':
 
