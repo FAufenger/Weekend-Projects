@@ -16,8 +16,8 @@ count_tie = 0
 count_total = 0
 
 # Before beginning, choose how many games you want to play
-games_desired = int(input ("How many games would you like to play?"))
-
+games_desired = int(input ("How many games would you like to play? "))
+print('---------------------')
 
 # Add while statement to see if player wants to continue
 while count_total < games_desired :
