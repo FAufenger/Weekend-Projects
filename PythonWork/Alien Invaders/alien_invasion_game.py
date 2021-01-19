@@ -1,6 +1,6 @@
 # Alien Invaders!!!
 ## Under Construction
-# Can run and get ship that moves with the screen as its constraints
+# Can run and get a shooting ship that moves with the screen as its constraints
 
 
 # This project was completed with the help of PYTHON CRASH COURSE
@@ -14,6 +14,7 @@ import pygame
 from settings import Settings
 from ship import Ship
 from bullet import Bullet
+from alien import Alien
 
 class AlienInvasion:
     """Create an overall class to manage game assets and actions."""
@@ -34,11 +35,14 @@ class AlienInvasion:
         # Set caption   
         pygame.display.set_caption("Alien Invasion")
 
-        # Import ship and bullets
+        # Import ship, bullets and alien attributes
         self.ship = Ship(self)
         self.bullets = pygame.sprite.Group()
+        self.aliens = pygame.sprite.Group()
 
+        self._create_fleet()
 
+        
     def run_game(self):
         """Start main loop for the game."""
         while True:
@@ -95,6 +99,12 @@ class AlienInvasion:
         # Used print statement to verrify bullets were removed    
         #print(len(self.bullets))
 
+    def _create_fleet(self):
+        """Create the fleet of aliens."""
+        # Make an alien
+        alien = Alien(self)
+        self.aliens.add(alien)
+
     def _update_screen(self):
         """Update images on the screen and flip to the new screen."""
         # Color chosen in settings.py
@@ -104,6 +114,8 @@ class AlienInvasion:
         # Bullet parameters made in bullet.py
         for bullet in self.bullets.sprites():
             bullet.draw_bullet()
+        # Alien parameters in alien.py
+        self.aliens.draw(self.screen)
         # Make the most recently drawn screen visible and hide old
         pygame.display.flip()
 
