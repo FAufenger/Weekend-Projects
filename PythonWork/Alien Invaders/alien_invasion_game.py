@@ -1,5 +1,7 @@
 # Alien Invaders!!!
 ## Under Construction
+# Can run and get ship that moves with the screen as its constraints
+
 
 # This project was completed with the help of PYTHON CRASH COURSE
 # Hands on project based introduction to programming by ERIC MATTHES
@@ -22,7 +24,13 @@ class AlienInvasion:
         self.settings = Settings()
         self.screen = pygame.display.set_mode(
             (self.settings.screen_width, self.settings.screen_height))
-        # Set caption    
+        
+        # # If full screen mode is desired can run below code in place of 2line above
+        # self.screen = pygame.display.set_mode((0,0), pygame.FULLSCREEN)
+        # self.settings.screen_width = self.screen.get_rect().width
+        # self.settings.screen_height = self.screen.get_rect().height
+
+        # Set caption   
         pygame.display.set_caption("Alien Invasion")
 
         # Import ship from ship.bmp in images folder
@@ -41,19 +49,27 @@ class AlienInvasion:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 sys.exit()
-
             elif event.type == pygame.KEYDOWN:
-                if event.key == pygame.K_RIGHT:
-                    # Move the ship to the right
-                    self.ship.moving_right = True
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = True
-
+                self._check_keydown_events(event)
             elif event.type == pygame.KEYUP:
-                if event.key == pygame.K_RIGHT:
-                    self.ship.moving_right = False
-                elif event.key == pygame.K_LEFT:
-                    self.ship.moving_left = False
+                self._check_keyup_events(event)
+
+    def _check_keydown_events(self, event):
+        """Respond to keypress"""
+        if event.key == pygame.K_RIGHT:
+            # Move the ship to the right
+            self.ship.moving_right = True
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = True
+        elif event.key == pygame.K_q:
+            sys.exit()
+
+    def _check_keyup_events(self, event): 
+        """Respond to keypress"""       
+        if event.key == pygame.K_RIGHT:
+            self.ship.moving_right = False
+        elif event.key == pygame.K_LEFT:
+            self.ship.moving_left = False
 
 
     def _update_screen(self):
@@ -62,7 +78,6 @@ class AlienInvasion:
         self.screen.fill(self.settings.bg_color)
         # Ship paramters made in ship.py
         self.ship.blitme()
-
         # Make the most recently drawn screen visible and hide old
         pygame.display.flip()
 
