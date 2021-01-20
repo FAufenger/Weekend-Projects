@@ -1,6 +1,7 @@
 # Create a ship class
 
 import pygame
+import pygame.sprite import Sprite
 
 """A class to manage the ship"""
 class Ship:

@@ -84,11 +84,12 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         # To disactivate invisable play button when game active
         if button_clicked and not self.stats.game_active:
-            # Reset the statistics and settings
+            # Reset the settings and statistics
             self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
             self.sb.prep_score()
+            self.sb.prep_level()
             # Get rid of any remaining aliens and bullets
             self.aliens.empty()
             self.bullets.empty()
@@ -166,15 +167,22 @@ class AlienInvasion:
                 self.bullets, self.aliens, True, True)
 
         if collisions:
-            self.stats.score += self.settings.alien_points
+            for aliens in collisions.values():
+                self.stats.score += self.settings.alien_points * len(aliens)
             self.sb.prep_score()
-        
+            self.sb.check_high_score()
+
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
             self.settings.increase_speed()
-        
+
+            # Increase level
+            self.stats.level += 1
+            self.sb.prep_level()
+
+
     def _update_aliens(self):
         """
         Check if the fleet is at an edge,
@@ -201,7 +209,7 @@ class AlienInvasion:
 
     def _ship_hit(self):
         """Respond to the ship being hit by an alien."""
-        if self.stats.ships_left > 1:
+        if self.stats.ships_left > 0:
             #Decrement ship_left
             self.stats.ships_left -= 1
 
