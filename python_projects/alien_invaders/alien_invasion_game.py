@@ -1,9 +1,9 @@
 # Alien Invaders!!!
 
-# CLick start to start. SPACE to shoot and  awwors to move left and right
+# CLick start to start. SPACE to shoot and  arrows to move left and right
 # Lives left displayed at top left corner
 # q, esc, or (x) in corner to quit game
-# Levels increase difficulity and point value as game  continues
+# Levels increase in both difficulity and point value as game continues
 
 # This project was completed with the help of PYTHON CRASH COURSE
 # Hands on project based introduction to programming by ERIC MATTHES
