@@ -7,9 +7,12 @@ Python files that are interactive. Thus far this Repository contains:
  * Candy Store Shopping
 
 ## Alien Invaders
-Utilizing pygame fight decending aliens!!
+Utilizing pygame to fight decending aliens!!
+* CLick start to start, SPACE to shoot and arrows to move left and right
+* Levels increase in both difficulity and point value as game continues
+* q, esc, or x in corner quit game
 
-Under construction
+![Alien Invaders sample pic](./images/alien_invaders.png)
 
 ## Rock Paper Scissors
 One player vs random computer
