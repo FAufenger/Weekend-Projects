@@ -74,6 +74,12 @@ docs/_build/
 # PyBuilder
 target/
 
+# Visual Studio cache/config directory
+.vs/
+
+# Visual Studio Code cache/config directory
+.vscode/
+
 # Jupyter Notebook
 .ipynb_checkpoints
 

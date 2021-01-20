@@ -1,6 +1,6 @@
 # Alien Invaders!!!
 ## Under Construction
-# Still to come: level up, score board, play button, restart button
+# Still to come: score board and high score
 
 
 # This project was completed with the help of PYTHON CRASH COURSE
@@ -14,6 +14,7 @@ import pygame
 # Import modules 
 from settings import Settings
 from game_stats import GameStats
+from scoreboard import Scoreboard
 from ship import Ship
 from bullet import Bullet
 from alien import Alien
@@ -39,7 +40,9 @@ class AlienInvasion:
         pygame.display.set_caption("Alien Invasion")
 
         # Create an instance to store game statistics
+        #   and create scoreboard
         self.stats = GameStats(self)
+        self.sb = Scoreboard(self)
 
         # Import ship, bullets and alien attributes
         self.ship = Ship(self)
@@ -81,9 +84,11 @@ class AlienInvasion:
         button_clicked = self.play_button.rect.collidepoint(mouse_pos)
         # To disactivate invisable play button when game active
         if button_clicked and not self.stats.game_active:
-            # Reset the statistics
+            # Reset the statistics and settings
+            self.settings.initialize_dynamic_settings()
             self.stats.reset_stats()
             self.stats.game_active = True
+            self.sb.prep_score()
             # Get rid of any remaining aliens and bullets
             self.aliens.empty()
             self.bullets.empty()
@@ -100,10 +105,33 @@ class AlienInvasion:
             self.ship.moving_right = True
         elif event.key == pygame.K_LEFT:
             self.ship.moving_left = True
-        elif event.key == pygame.K_q:
+        elif event.key == pygame.K_q or event.key == pygame.K_ESCAPE:
             sys.exit()
         elif event.key == pygame.K_SPACE:
             self._fire_bullet()
+        #elif event.key == pygame.K_p:
+        #    start_game()
+
+        ## Woring on makinf 'f' button fullscreen mode
+        ## Refrence to fullscreen needed prior?...
+        # elif event.key == pygame.K_f:
+        #     self.fullscreen = False
+        #     if fullscreen == False:
+        #         print("Changing to FULLSCREEN")
+        #         screen_backup = screen.copy()
+        #         screen = pygame.display.set_mode(
+        #         SCREENRECT.size, winstyle | pygame.FULLSCREEN, bestdepth
+        #         )
+        #         screen.blit(screen_backup, (0, 0))
+        #     else:
+        #         print("Changing to windowed mode")
+        #         screen_backup = screen.copy()
+        #         screen = pygame.display.set_mode(
+        #             SCREENRECT.size, winstyle, bestdepth)
+        #         screen.blit(screen_backup, (0, 0))
+        #     pygame.display.flip()
+        #     fullscreen = not fullscreen
+
 
     def _check_keyup_events(self, event): 
         """Respond to keypress."""       
@@ -136,12 +164,16 @@ class AlienInvasion:
         # Remove andy bullets and alien collisions
         collisions = pygame.sprite.groupcollide(
                 self.bullets, self.aliens, True, True)
+
+        if collisions:
+            self.stats.score += self.settings.alien_points
+            self.sb.prep_score()
         
         if not self.aliens:
             # Destroy existing bullets and create new fleet.
             self.bullets.empty()
             self._create_fleet()
-            #self.settings.increase_speed()
+            self.settings.increase_speed()
         
     def _update_aliens(self):
         """
@@ -243,6 +275,8 @@ class AlienInvasion:
             bullet.draw_bullet()
         # Alien parameters in alien.py
         self.aliens.draw(self.screen)
+        #Draw the score information
+        self.sb.show_score()
         # Draw the play button if the game is inactive
         if not self.stats.game_active:
             self.play_button.draw_button()
